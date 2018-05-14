@@ -210,7 +210,7 @@ func (q *Queue) Play(v abstract.Video) error {
 	}
 	fmt.Println("Downloaded the video\n")
 	err = v.Play()
-	if v.Path() != "temp.mp3" {
+	if v.Path() == "temp.mp3" {
 		v.Remove()
 	}
 	return err
