@@ -39,9 +39,8 @@ go build
 Windows users: layeh.com/gopus/opus_nonshared.go will need mingw added to target platform (line 5)
 ```
 ## Usage
-Launch the exe from a terminal (such as cmd or bash or what have you). 
-<h3>To Exit: ctrl+c out, termination loop is bugged</h3>
-
+Launch the exe from a terminal (such as cmd or bash or what have you).<br>
+To exit: type 'exit' into the terminal and send
 ## Options
 ```
 Flags:
