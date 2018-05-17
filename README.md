@@ -50,3 +50,11 @@ Flags:
 -cert: Location of cert file (.pem). Required for registration
 -key: Location of key file (.pem). Required for registration
 ```
+
+## Commands
+All commands are prefixed with a '.'
+To issue a command: either send message to the channel the bot is in, or directly message it
+```
+Commands:
+.help: list all commands and their usage
+```
