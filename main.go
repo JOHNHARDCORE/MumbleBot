@@ -8,7 +8,8 @@ import (
 
 	"github.com/MumbleBot/bot"
 	"github.com/MumbleBot/functions"
-	"github.com/MumbleBot/video"
+	"github.com/MumbleBot/source"
+	"github.com/MumbleBot/videos"
 	_ "layeh.com/gumble/opus"
 )
 
@@ -23,12 +24,13 @@ func main() {
 
 	b := bot.NewBot()
 	b.Commands = functions.GetCommands()
+	b.Sources = source.GetSources()
 	functions.Bot = b
 	bot.Bot = b
-	video.Bot = b
+	videos.Bot = b
 
-	if _, err := os.Stat("temp.mp3"); err == nil {
-		os.Remove("temp.mp3")
+	if _, err := os.Stat("res/media/temp.mp3"); err == nil {
+		os.Remove("res/media/temp.mp3")
 	}
 
 	err := b.Connect(*ip, *name, *cert, *key)

@@ -19,6 +19,7 @@ var Bot *MumBot
 type MumBot struct {
 	/* TODO: figure out what the hell goes in here*/
 	Commands map[string]abstract.ChatFunction
+	Sources  []abstract.Source
 	Client   *gumble.Client
 	Cfg      *gumble.Config
 	TLS      *tls.Config
@@ -34,7 +35,7 @@ func NewBot() *MumBot {
 		Commands: make(map[string]abstract.ChatFunction, 0),
 		Queue:    newQueue(),
 		Stream:   new(gumbleffmpeg.Stream),
-		Volume:   float32(.2),
+		Volume:   float32(.4),
 	}
 }
 

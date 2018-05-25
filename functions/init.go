@@ -23,5 +23,7 @@ func GetCommands() map[string]abstract.ChatFunction {
 		".skip":     new(Skip),
 		".help":     new(Help),
 		".clear":    new(Clear),
+		".blowout":  new(Blowout),
+		".forest":   new(Forest),
 	}
 }

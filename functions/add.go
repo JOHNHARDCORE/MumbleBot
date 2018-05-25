@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/MumbleBot/video"
+	"github.com/MumbleBot/abstract"
 	"github.com/kkdai/youtube"
 	"layeh.com/gumble/gumble"
 )
@@ -18,8 +18,20 @@ func (a *Add) GetName() string {
 func (a *Add) Exec(ev *gumble.TextMessageEvent) error {
 	url := ev.TextMessage.Message[4:]
 	fmt.Println("URL: ", url)
-	valid := regexp.MustCompile(`http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?`)
-	matches := valid.FindStringSubmatch(url)
+	var src abstract.Source
+	var matches []string
+	for i := range Bot.Sources {
+		fmt.Println("trying ", i)
+		fmt.Println(Bot.Sources[i].Regex())
+		valid := regexp.MustCompile(Bot.Sources[i].Regex())
+		matches = valid.FindStringSubmatch(url)
+		if len(matches) > 1 {
+			fmt.Println("found a match")
+			src = Bot.Sources[i]
+			break
+		}
+	}
+
 	if len(matches) == 0 {
 		send("Invalid video URL. Try stripping html from link if it's valid (Send message and send via Source Text tab)", ev.Sender)
 		return fmt.Errorf("Invalid video URL. Try stripping html from link if it's valid (Send message and send via Source Text tab)")
@@ -27,7 +39,7 @@ func (a *Add) Exec(ev *gumble.TextMessageEvent) error {
 
 	y := youtube.NewYoutube(false)
 	fmt.Println("Matched: ", matches[0])
-	path := "temp.mp3"
+	path := "res/media/temp.mp3"
 	title := matches[0] + ".mp3"
 	id := matches[0]
 
@@ -39,7 +51,7 @@ func (a *Add) Exec(ev *gumble.TextMessageEvent) error {
 		fmt.Println("couldn't retrieve data or whatever")
 		y = nil
 	}
-	video := video.NewVideo(0, title, path, id, ev.Sender, y)
+	video := src.NewVideo(0, title, path, id, ev.Sender)
 	err = Bot.Queue.Add(video)
 
 	if err != nil {
